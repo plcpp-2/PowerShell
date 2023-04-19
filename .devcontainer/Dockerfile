@@ -3,7 +3,7 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-FROM mcr.microsoft.com/powershell/test-deps:ubuntu-18.04
+FROM mcr.microsoft.com/powershell/test-deps:ubuntu-22.04
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -18,7 +18,9 @@ RUN apt-get update \
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && wget https://github.com/twpayne/chezmoi/releases/download/v2.33.1/chezmoi_2.33.1_linux_amd64.deb \
+    && apt-get -y install ./chezmoi_2.33.1_linux_amd64.deb
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog
